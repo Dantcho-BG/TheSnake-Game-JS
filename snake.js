@@ -74,15 +74,45 @@ grid[gridMiddleY][snakeFourthPartX]["type"] = "t3";
 console.log(gridMiddleX + " - Grid X Middle");
 console.log(gridMiddleY + " - Grid Y Middle");
 
+var direction = "up";
+
+function determineDirection(event) {
+
+    keyPressed = event.keyCode;
+
+    if (keyPressed == 65 || keyPressed == 37) {
+
+        direction = "left";
+
+    }
+    else if (keyPressed == 87 || keyPressed == 38) {
+
+        direction = "up";
+
+    }
+    else if (keyPressed == 68 || keyPressed == 39) {
+
+        direction = "right";
+
+    }
+    else if (keyPressed == 83 || keyPressed == 40) {
+
+        direction = "down";
+
+    }
+
+}
+
 //Draw the grid before the interval code runs the first time
 draw ();
 
 setInterval(function () {
-    
-    draw ();
-    moveSnakeForward("up");
 
-}, 1000);
+    moveSnakeForward(direction);
+    draw ();
+    
+
+}, 500);
 
 headPositionX = gridMiddleX;
 headPositionY = gridMiddleY;
