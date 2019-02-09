@@ -103,14 +103,149 @@ function determineDirection(event) {
 
 }
 
+var food = new Array();
+
+function generateFood () {
+
+    exit = false;
+
+    while (exit == false) {
+
+        food["x"] = Math.floor((Math.random() * 49) + 1);
+        food["y"] = Math.floor((Math.random() * 49) + 1);
+
+        if (grid[food["y"]][food["x"]]["colour"] == 0) {
+
+            if (food["x"] != 0 || food["x"] != 1 || food["y"] != 0 || food["y"] != 1) {
+
+                if (food["x"] != 48 || food["x"] != 49 || food["y"] != 48 || food["y"] != 49) {
+
+                    grid[food["y"]][food["x"]]["colour"] = 2;
+                    grid[food["y"]][food["x"]]["type"] = "f";
+
+                    exit = true;
+
+                }
+                
+            }
+
+        }
+
+    }
+
+}
+
+function eatFood () {
+
+    if (headPositionY == food["y"] && headPositionX == food["x"]) {
+
+        alert ("food eaten")
+
+        grow ();
+
+        generateFood();
+            
+    } 
+
+}
+
+function grow () {
+
+    snakeLength ++;
+
+    partNumber = snakeLength - 1;
+
+    tailPart = "t" + partNumber;
+
+    partNumberBefore = partNumber - 1;
+
+    partNumberBeforeBefore = partNumber - 2;
+
+    tailPartBefore = "t" + partNumberBefore;
+
+    tailPartBeforeBefore = "t" + partNumberBeforeBefore;
+
+    snakeTailParts[tailPart] = new Array();
+
+    if (snakeTailParts[tailPartBefore]["tailPartX"] < snakeTailParts[tailPartBeforeBefore]["tailPartX"]) {
+
+        newPartX = snakeTailPartBeforeX - 1;
+        newPartY = snakeTailPartBeforeY;
+
+        snakeTailParts[tailPart]["tailPartX"] = newPartX;
+        snakeTailParts[tailPart]["tailPartY"] = newPartY;
+
+        grid[newPartY][newPartX]["colour"] = 1;
+        grid[newPartY][newPartX]["type"] = tailPart;
+
+    }
+    
+    if (snakeTailParts[tailPartBefore]["tailPartX"] > snakeTailParts[tailPartBeforeBefore]["tailPartX"]) {
+
+        newPartX = snakeTailPartBeforeX + 1;
+        newPartY = snakeTailPartBeforeY;
+
+        snakeTailParts[tailPart]["tailPartX"] = newPartX;
+        snakeTailParts[tailPart]["tailPartY"] = newPartY;
+
+        grid[newPartY][newPartX]["colour"] = 1;
+        grid[newPartY][newPartX]["type"] = tailPart;
+
+    }
+
+    if (snakeTailParts[tailPartBefore]["tailPartY"] < snakeTailParts[tailPartBeforeBefore]["tailPartY"]) {
+
+        newPartX = snakeTailPartBeforeX;
+        newPartY = snakeTailPartBeforeY - 1;
+
+        snakeTailParts[tailPart]["tailPartX"] = newPartX;
+        snakeTailParts[tailPart]["tailPartY"] = newPartY;
+
+        grid[newPartY][newPartX]["colour"] = 1;
+        grid[newPartY][newPartX]["type"] = tailPart;
+
+    }
+
+    if (snakeTailParts[tailPartBefore]["tailPartY"] > snakeTailParts[tailPartBeforeBefore]["tailPartY"]) {
+
+        newPartX = snakeTailPartBeforeX;
+        newPartY = snakeTailPartBeforeY + 1;
+
+        snakeTailParts[tailPart]["tailPartX"] = newPartX;
+        snakeTailParts[tailPart]["tailPartY"] = newPartY;
+
+        grid[newPartY][newPartX]["colour"] = 1;
+        grid[newPartY][newPartX]["type"] = tailPart;
+
+    }
+
+}
+
+function checkIfDead () {
+
+    if (headPositionY == 1 || headPositionY == 48) {
+
+        clearInterval(reRenderer);
+
+    }
+
+    if (headPositionX == 1 || headPositionX == 48) {
+
+        clearInterval(reRenderer);
+
+    }
+
+}
+
 //Draw the grid before the interval code runs the first time
 draw ();
+generateFood();
 
-setInterval(function () {
+var reRenderer = setInterval(function () {
 
     moveSnakeForward(direction);
+    eatFood();
     draw ();
-    
 
 }, 500);
 
@@ -118,6 +253,8 @@ headPositionX = gridMiddleX;
 headPositionY = gridMiddleY;
 
 function moveSnakeForward (direction) {
+
+    
 
     height = 0;
     width = 0;
@@ -267,6 +404,8 @@ function moveSnakeForward (direction) {
 
     }
 
+    checkIfDead();
+
 }
 
 //Show the grid array in the console before drawing it (Used for debuging)
@@ -309,6 +448,65 @@ function draw () {
                     ctx.fillStyle = "#FF0000";
 
                 }
+
+                ctx.fillRect(posX, posY, 10, 10);
+
+            }
+            
+            if (grid[height][width]["colour"] == 2) {
+
+                posY = height * 10;
+                posX = width * 10;
+
+                if (grid[height][width]["type"] === "f") {
+
+                    ctx.fillStyle = "#DDDD00";
+
+                }
+
+                ctx.fillRect(posX, posY, 10, 10);
+
+            }
+
+            if (height == 0 || height == 1) {
+
+                posY = height * 10;
+                posX = width * 10;
+
+                ctx.fillStyle = "#555555";
+
+                ctx.fillRect(posX, posY, 10, 10);
+
+            }
+
+            if (height == 48 || height == 49) {
+
+                posY = height * 10;
+                posX = width * 10;
+
+                ctx.fillStyle = "#555555";
+
+                ctx.fillRect(posX, posY, 10, 10);
+
+            }
+
+            if (width == 0 || width == 1) {
+
+                posY = height * 10;
+                posX = width * 10;
+
+                ctx.fillStyle = "#555555";
+
+                ctx.fillRect(posX, posY, 10, 10);
+
+            }
+
+            if (width == 48 || width == 49) {
+
+                posY = height * 10;
+                posX = width * 10;
+
+                ctx.fillStyle = "#555555";
 
                 ctx.fillRect(posX, posY, 10, 10);
 
