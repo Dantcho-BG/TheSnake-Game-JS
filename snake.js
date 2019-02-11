@@ -116,12 +116,14 @@ function generateFood () {
 
         if (grid[food["y"]][food["x"]]["colour"] == 0) {
 
-            if (food["x"] != 0 || food["x"] != 1 || food["y"] != 0 || food["y"] != 1) {
+            if ((food["x"] > 0 && food["x"] > 1) && (food["y"] > 0 && food["y"] > 1)) {
 
-                if (food["x"] != 48 || food["x"] != 49 || food["y"] != 48 || food["y"] != 49) {
+                if ((food["x"] < 48 && food["x"] < 49) && (food["y"] < 48 && food["y"] < 49)) {
 
                     grid[food["y"]][food["x"]]["colour"] = 2;
                     grid[food["y"]][food["x"]]["type"] = "f";
+
+                    //alert(food["y"] + "Y - " + food["x"] + "X")
 
                     exit = true;
 
@@ -139,7 +141,7 @@ function eatFood () {
 
     if (headPositionY == food["y"] && headPositionX == food["x"]) {
 
-        alert ("food eaten")
+        //alert ("food eaten")
 
         grow ();
 
