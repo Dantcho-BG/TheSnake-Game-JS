@@ -11,6 +11,8 @@ var canvasHeight = canvas.height;
 var gridSizeWidth = parseInt(canvasWidth / 10);
 var gridSizeHeight = parseInt(canvasHeight / 10);
 
+var points = 0;
+
 //Log grid size to console
 console.log(gridSizeWidth + " - Grid Width");
 console.log(gridSizeHeight + " - Grid Height");
@@ -23,6 +25,14 @@ var snakeLength = 4;
 counterWidth = 0;
 counterHeight = 0;
 var height = 0;
+
+function addPoints (amount) {
+
+    points = points + amount;
+
+    console.log ("Points: " + points);
+
+}
 
 while (counterHeight < gridSizeHeight) {
 
@@ -163,6 +173,8 @@ function eatFood () {
     if (headPositionY == food["y"] && headPositionX == food["x"]) {
 
         //alert ("food eaten")
+
+        addPoints (5);
 
         grow ();
 
