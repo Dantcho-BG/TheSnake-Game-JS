@@ -103,6 +103,27 @@ function determineDirection(event) {
 
 }
 
+function checkIfEatingSelf () {
+
+    snakePartNumber = 1;
+    snakeParts = snakeLength - 1;
+
+    while (snakePartNumber < snakeLength) {
+
+        snakePartName = "t" + snakePartNumber;
+
+        if (headPositionX == snakeTailParts[snakePartName]["tailPartX"] && headPositionY == snakeTailParts[snakePartName]["tailPartY"]) {
+
+            clearInterval(reRenderer);
+
+        }
+
+        snakePartNumber ++;
+
+    }
+
+}
+
 var food = new Array();
 
 function generateFood () {
@@ -246,6 +267,7 @@ generateFood();
 var reRenderer = setInterval(function () {
 
     moveSnakeForward(direction);
+    checkIfEatingSelf();
     eatFood();
     draw ();
 
