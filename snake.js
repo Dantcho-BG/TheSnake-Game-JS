@@ -90,22 +90,22 @@ function determineDirection(event) {
 
     keyPressed = event.keyCode;
 
-    if (keyPressed == 65 || keyPressed == 37) {
+    if ((keyPressed == 65 || keyPressed == 37) && direction != "right") {
 
         direction = "left";
 
     }
-    else if (keyPressed == 87 || keyPressed == 38) {
+    else if ((keyPressed == 87 || keyPressed == 38) && direction != "down") {
 
         direction = "up";
 
     }
-    else if (keyPressed == 68 || keyPressed == 39) {
+    else if ((keyPressed == 68 || keyPressed == 39) && direction != "left") {
 
         direction = "right";
 
     }
-    else if (keyPressed == 83 || keyPressed == 40) {
+    else if ((keyPressed == 83 || keyPressed == 40) && direction != "up") {
 
         direction = "down";
 
@@ -289,8 +289,6 @@ headPositionX = gridMiddleX;
 headPositionY = gridMiddleY;
 
 function moveSnakeForward (direction) {
-
-    
 
     height = 0;
     width = 0;
